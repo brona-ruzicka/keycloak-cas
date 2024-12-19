@@ -22,7 +22,7 @@ public final class UrlHelper {
   public static UriBuilder createAuthenticationUrl(
       final CasIdentityProviderConfig config, final AuthenticationRequest request) {
     UriBuilder builder =
-        UriBuilder.fromUri(config.getCasServerLoginUrl());
+        UriBuilder.fromUri(config.getCasServerLoginUrl())
             .queryParam(PROVIDER_PARAMETER_SERVICE,
                 Objects.requireNonNullElse(config.getProxyUri(), request.getRedirectUri())
             );
