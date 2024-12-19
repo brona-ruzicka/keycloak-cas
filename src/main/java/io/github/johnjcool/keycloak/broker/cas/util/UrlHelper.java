@@ -19,12 +19,16 @@ public final class UrlHelper {
     // util
   }
 
+  private static String nonNullElse(String a, String b) {
+    return a != null ? a : b;
+  }
+
   public static UriBuilder createAuthenticationUrl(
       final CasIdentityProviderConfig config, final AuthenticationRequest request) {
     UriBuilder builder =
         UriBuilder.fromUri(config.getCasServerLoginUrl())
             .queryParam(PROVIDER_PARAMETER_SERVICE,
-                Objects.requireNonNullElse(config.getProxyUri(), request.getRedirectUri())
+                nonNullElse(config.getProxyUri(), request.getRedirectUri())
             );
     if (config.isRenew()) {
       builder.queryParam(PROVIDER_PARAMETER_RENEW, config.isRenew());
@@ -41,7 +45,7 @@ public final class UrlHelper {
         UriBuilder.fromUri(config.getCasServiceValidateUrl())
             .queryParam(PROVIDER_PARAMETER_TICKET, ticket)
             .queryParam(PROVIDER_PARAMETER_SERVICE,
-                Objects.requireNonNullElse(config.getProxyUri(), uriInfo.getAbsolutePath().toString())
+                nonNullElse(config.getProxyUri(), uriInfo.getAbsolutePath().toString())
             );
     if (config.isRenew()) {
       builder.queryParam(PROVIDER_PARAMETER_RENEW, config.isRenew());
