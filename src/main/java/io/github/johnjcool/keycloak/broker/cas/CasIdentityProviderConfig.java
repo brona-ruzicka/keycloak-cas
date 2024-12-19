@@ -10,7 +10,6 @@ public class CasIdentityProviderConfig extends IdentityProviderModel {
   private static final String DEFAULT_CAS_LOGIN_SUFFIX = "login";
   private static final String DEFAULT_CAS_LOGOUT_SUFFIX = "logout";
   private static final String CAS_SERVICE_VALIDATE_SUFFIX = "serviceValidate";
-  private static final String CAS_3_PROTOCOL_PREFIX = "p3";
 
   public CasIdentityProviderConfig() {
     super();
@@ -26,6 +25,15 @@ public class CasIdentityProviderConfig extends IdentityProviderModel {
 
   public String getCasServerUrlPrefix() {
     return getConfig().get("casServerUrlPrefix");
+  }
+
+  public void setProxyUri(final String proxyUri) {
+    getConfig().put("proxyUri", proxyUri);
+  }
+
+  public String getProxyUri() {
+    String value = getConfig().get("proxyUri");
+    return value != "" ? value : null;
   }
 
   public void setGateway(final boolean gateway) {
@@ -53,8 +61,6 @@ public class CasIdentityProviderConfig extends IdentityProviderModel {
   }
 
   public String getCasServiceValidateUrl() {
-    return String.format(
-        "%s/%s/%s",
-        getConfig().get("casServerUrlPrefix"), CAS_3_PROTOCOL_PREFIX, CAS_SERVICE_VALIDATE_SUFFIX);
+    return String.format("%s/%s", getConfig().get("casServerUrlPrefix"), CAS_SERVICE_VALIDATE_SUFFIX);
   }
 }

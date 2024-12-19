@@ -22,8 +22,10 @@ public final class UrlHelper {
   public static UriBuilder createAuthenticationUrl(
       final CasIdentityProviderConfig config, final AuthenticationRequest request) {
     UriBuilder builder =
-        UriBuilder.fromUri(config.getCasServerLoginUrl())
-            .queryParam(PROVIDER_PARAMETER_SERVICE, request.getRedirectUri());
+        UriBuilder.fromUri(config.getCasServerLoginUrl());
+            .queryParam(PROVIDER_PARAMETER_SERVICE,
+                Objects.requireNonNullElse(config.getProxyUri(), request.getRedirectUri())
+            );
     if (config.isRenew()) {
       builder.queryParam(PROVIDER_PARAMETER_RENEW, config.isRenew());
     }
@@ -38,7 +40,9 @@ public final class UrlHelper {
     UriBuilder builder =
         UriBuilder.fromUri(config.getCasServiceValidateUrl())
             .queryParam(PROVIDER_PARAMETER_TICKET, ticket)
-            .queryParam(PROVIDER_PARAMETER_SERVICE, uriInfo.getAbsolutePath().toString());
+            .queryParam(PROVIDER_PARAMETER_SERVICE,
+                Objects.requireNonNullElse(config.getProxyUri(), uriInfo.getAbsolutePath().toString())
+            );
     if (config.isRenew()) {
       builder.queryParam(PROVIDER_PARAMETER_RENEW, config.isRenew());
     }
